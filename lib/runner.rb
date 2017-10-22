@@ -26,7 +26,7 @@ class Runner
   end
 
   def evaluate_first_command(input)
-    return if input[0] == 'q'
+    return if input[0] == 'quit'
     load_path(input)
   end
 
@@ -55,23 +55,30 @@ class Runner
     evaluate_first_command(input_splitter)
   end
 
+  def try_again_next_command
+    puts "That is not a valid command. Enter a valid command
+    or type 'help' to see a list of valid commands"
+    evaluate_next_command(input_splitter)
+  end
+
   def evaluate_next_command(input)
-    return if input[0] == 'q'
+    return if input[0] == 'quit'
     if input[0] == 'queue'
       queue_executer(input)
     elsif input[0] == 'find'
       find_executer(input)
-    else
       evaluate_next_command(input_splitter)
+    else
+      try_again_next_command
     end
   end
 
   def find_executer(input)
     all = @reporter.data.find_all do |attendee|
-      binding.pry
-      attendee.(input[1]) == input[2]
+      attendee.send(input[1].to_sym) == input[2]
     end
     @queue << all
+    @queue.flatten
   end
 end
 

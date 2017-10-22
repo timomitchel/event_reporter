@@ -15,10 +15,6 @@ class EventReporter
     CSV.open filename, headers: true, header_converters: :symbol
   end
 
-  def input
-    gets.chomp
-  end
-
   def format_zip_codes
     data.map do |attendee|
       attendee.zipcode.to_s.rjust(5, '0')[0..4]

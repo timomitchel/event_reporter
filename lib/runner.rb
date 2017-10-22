@@ -6,7 +6,6 @@ class Runner
 
   def initialize
     @queue = []
-    @reporter = []
     intro
     evaluate_first_command(input_splitter)
   end
@@ -28,32 +27,49 @@ class Runner
 
   def evaluate_first_command(input)
     return if input[0] == 'q'
+    load_path(input)
+  end
+
+  def load_path(input)
     if input[0] == 'load' && File.exist?("./data/#{input[1]}") && input[1] != nil
-      @reporter << EventReporter.new("./data/#{input[1]}")
-      evaluate_next_command(input_splitter)
+      load_file_input(input)
     elsif input[0] == 'load' && input[1].nil?
-      @reporter << EventReporter.new
-      evaluate_next_command(input_splitter)
+      load_default_file
     else
-      restart_message
-      evaluate_first_command(input_splitter)
+      try_again_first_command
     end
+  end
+
+  def load_file_input(input)
+    @reporter = EventReporter.new("./data/#{input[1]}")
+    evaluate_next_command(input_splitter)
+  end
+
+  def load_default_file
+    @reporter = EventReporter.new
+    evaluate_next_command(input_splitter)
+  end
+
+  def try_again_first_command
+    restart_message
+    evaluate_first_command(input_splitter)
   end
 
   def evaluate_next_command(input)
+    return if input[0] == 'q'
     if input[0] == 'queue'
-      queue(input)
+      queue_executer(input)
     elsif input[0] == 'find'
-      find(input)
+      find_executer(input)
     else
       evaluate_next_command(input_splitter)
     end
   end
 
-  def find(input)
+  def find_executer(input)
     all = @reporter.data.find_all do |attendee|
       binding.pry
-      attendee.input[1] == input[2]
+      attendee.(input[1]) == input[2]
     end
     @queue << all
   end

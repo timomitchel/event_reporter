@@ -63,8 +63,13 @@ class EventReporterTest < Minitest::Test
     assert_equal '20010', er.csv_load[0].zipcode
   end
 
-  def test_case_name
+  def test_data_formatted_correctly_when_file_passed_in
+    er = EventReporter.new("./data/event_attendees.csv")
 
+    assert_equal '11', er.data[10].id
+    assert_equal 'aya', er.data[5].first_name
+    assert_equal 'dc', er.data.first.state
+    assert_equal '2008-11-23 20:44:00 -0700', er.data.last.date
   end
 
 end

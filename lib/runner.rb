@@ -19,7 +19,7 @@ class Runner
   end
 
   def evaluate_first_command(input)
-    return if input[0] == 'quit'
+    exit if input[0] == 'quit'
     load_path(input)
   end
 
@@ -55,7 +55,7 @@ class Runner
   end
 
   def evaluate_next_command(input)
-    return if input[0] == 'quit'
+    exit if input[0] == 'quit'
     if input[0] == 'queue'
       queue_executer(input)
     elsif input[0] == 'find'
@@ -69,7 +69,7 @@ class Runner
   end
 
   def queue_executer(input)
-    return if input[0] == 'quit'
+    exit if input[0] == 'quit'
     if input[1] == "count"
       puts "#{@queue.flatten.count}"
     elsif input[1] == "clear"

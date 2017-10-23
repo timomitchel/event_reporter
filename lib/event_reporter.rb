@@ -16,5 +16,3 @@ class EventReporter
     csv.map {|row| Attendee.new(row)}
   end
 end
-
-EventReporter.new

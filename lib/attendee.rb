@@ -8,7 +8,7 @@ class Attendee
 
   def initialize(info)
     @id = info[:'']
-    @date = Time.strptime(info[:regdate], '%D %R')
+    @date = Time.strptime(info[:regdate], '%D %R').to_s
     @first_name = clean_capitalization(info[:first_name])
     @last_name = clean_capitalization(info[:last_name])
     @email = clean_capitalization(info[:email_address])

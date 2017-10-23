@@ -9,14 +9,12 @@ module Output
   end
 
   def restart_message_with_help
-    puts
-    "That is not a valid command. Enter a valid command
+    puts "That is not a valid command. Enter a valid command
     or type 'help' to see a list of valid commands"
   end
 
   def intro
-    puts
-    "Hello please type 'load <filename>' and then hit enter to
+    puts "Hello please type 'load <filename>' and then hit enter to
     load a custom csv file. Or, type 'load' and hit enter to load our
     default csv file"
   end

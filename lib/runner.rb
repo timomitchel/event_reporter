@@ -35,11 +35,13 @@ class Runner
 
   def load_file_input(input)
     @reporter = EventReporter.new("./data/#{input[1]}")
+    file_loaded
     evaluate_next_command(input_splitter)
   end
 
   def load_default_file
     @reporter = EventReporter.new
+    file_loaded
     evaluate_next_command(input_splitter)
   end
 
@@ -50,7 +52,6 @@ class Runner
 
   def try_again_next_command
     restart_message_with_help
-    evaluate_next_command(input_splitter)
   end
 
   def evaluate_next_command(input)
@@ -59,7 +60,28 @@ class Runner
       queue_executer(input)
     elsif input[0] == 'find'
       find_executer(input)
-      evaluate_next_command(input_splitter)
+    elsif input[0] == "help"
+      help_executer(input)
+    else
+      try_again_next_command
+    end
+    evaluate_next_command(input_splitter)
+  end
+
+  def queue_executer(input)
+    return if input[0] == 'quit'
+    if input[1] == "count"
+      puts "#{@queue.flatten.count}"
+    elsif input[1] == "clear"
+      @queue.clear
+    elsif input[1] == "print" && input[2].nil?
+      print_headers
+    elsif input[1] == "print" && input[2] == "by" && input[3] != nil
+      print_attribute(input[3])
+    elsif input[1] == "save" &&  input[2] == "to" && input[3] != nil
+      save(input[3])
+    elsif input[1] == "export" && input[2] == "html" && input[3] != nil
+      export(input[3])
     else
       try_again_next_command
     end
@@ -67,10 +89,9 @@ class Runner
 
   def find_executer(input)
     all = @reporter.data.find_all do |attendee|
-      attendee.send(input[1].to_sym) == input[2]
+      attendee.send(input[1].to_sym) == input[2].downcase
     end
     @queue << all
-    @queue.flatten
   end
 end
 

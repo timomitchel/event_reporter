@@ -9,7 +9,6 @@ class EventReporter
   def initialize(filename = './data/full_event_attendees.csv')
     @filename = filename
     @data = csv_load
-    binding.pry
   end
 
   def csv_load

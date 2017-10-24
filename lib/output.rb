@@ -80,7 +80,7 @@ module Output
         column("PHONE",width: 15)
       end
       row do
-        column("#{grab_last_names.to_s}")
+        column("#{grab_last_names}")
         column("#{grab_first_names}")
         column("#{grab_emails}")
         column("#{grab_zipcode}")

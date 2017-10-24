@@ -27,6 +27,6 @@ class EventReporter
   end
 
   def attendee_hash_scratch
-    attendees_by_id = data.map { |attendee| [attendee.city, attendee] }.to_h
+    data.map { |attendee| [attendee.city, attendee] }.to_h
   end
 end

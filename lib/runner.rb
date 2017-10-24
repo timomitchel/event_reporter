@@ -1,15 +1,20 @@
 require_relative "event_reporter"
 require "pry"
 require_relative 'output'
+require 'command_line_reporter'
 
 class Runner
 
+  include CommandLineReporter
   include Output
 
   attr_reader :reporter, :queue
 
   def initialize
     @queue = []
+  end
+
+  def start
     intro
     evaluate_first_command(input_splitter)
   end
@@ -75,7 +80,7 @@ class Runner
     elsif input[1] == "clear"
       @queue.clear
     elsif input[1] == "print" && input[2].nil?
-      print_headers
+      print_queue
     elsif input[1] == "print" && input[2] == "by" && input[3] != nil
       print_attribute(input[3])
     elsif input[1] == "save" &&  input[2] == "to" && input[3] != nil
@@ -94,5 +99,3 @@ class Runner
     @queue << all
   end
 end
-
-Runner.new

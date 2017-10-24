@@ -15,4 +15,11 @@ class EventReporter
     csv = CSV.open filename, headers: true, header_converters: :symbol
     csv.map {|row| Attendee.new(row)}
   end
+
+  def hash_maker
+      data.reduce(Hash.new) do |hash, attendee|
+        hash[attendee.id] = attendee
+        hash
+    end
+  end
 end

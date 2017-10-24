@@ -12,6 +12,7 @@ class Runner
 
   def initialize
     @queue = []
+    self.formatter = 'progress'
   end
 
   def start
@@ -63,7 +64,7 @@ class Runner
     exit if input[0] == 'quit'
     if input[0] == 'queue'
       queue_executer(input)
-    elsif input[0] == 'find'
+    elsif input[0] == 'find' && check_for_attendee_instance_variable(input)
       find_executer(input)
     elsif input[0] == "help"
       help_executer(input)
@@ -71,6 +72,16 @@ class Runner
       try_again_next_command
     end
     evaluate_next_command(input_splitter)
+  end
+
+  def check_for_attendee_instance_variable(input)
+    instance_vars.one? {|variable| variable == input[1]}
+  end
+
+  def instance_vars
+    y = @reporter.data.map {|attendee| attendee.instance_variables}.flatten.uniq
+    f = y.map {|variable| variable.to_s}
+    x = f.map {|variable| variable.delete('@')}
   end
 
   def queue_executer(input)
@@ -96,6 +107,9 @@ class Runner
     all = @reporter.data.find_all do |attendee|
       attendee.send(input[1].to_sym) == input[2].downcase
     end
+    queue_loaded
     @queue << all
   end
 end
+
+Runner.new.start

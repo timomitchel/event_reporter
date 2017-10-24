@@ -28,8 +28,5 @@ class EventReporter
 
   def attendee_hash_scratch
     attendees_by_id = data.map { |attendee| [attendee.city, attendee] }.to_h
-    binding.pry
   end
 end
-
-EventReporter.new.attendee_hash_scratch

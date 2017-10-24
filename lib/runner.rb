@@ -111,6 +111,8 @@ class Runner
 
   def print_attribute(input)
 
+  end
+
   def find_executer(input)
     all = @reporter.data.find_all do |attendee|
       attendee.send(input[1].to_sym) == input[2].downcase

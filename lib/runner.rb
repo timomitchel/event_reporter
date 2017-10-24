@@ -95,6 +95,7 @@ class Runner
     if input[1] == "count"
       puts "#{@queue.flatten.count}"
     elsif input[1] == "clear"
+      print_queue_clear
       @queue.clear
     elsif input[1] == "print" && input[2].nil?
       print_queue

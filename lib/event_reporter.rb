@@ -12,13 +12,16 @@ class EventReporter
   end
 
   def csv_load
-    csv = CSV.open filename, headers: true, header_converters: :symbol
-    csv.map {|row| Attendee.new(row)}
+    csv_open.map {|row| Attendee.new(row)}
+  end
+
+  def csv_open
+    CSV.open filename, headers: true, header_converters: :symbol
   end
 
   def hash_maker
-      data.reduce(Hash.new) do |hash, attendee|
-        hash[attendee.id] = attendee
+      csv_load.reduce(Hash.new(0)) do |hash, attendee|
+        hash[attendee.first_name] = 'first_name'
         hash
     end
   end

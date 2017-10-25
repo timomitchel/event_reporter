@@ -1,18 +1,19 @@
 require_relative "event_reporter"
 require "pry"
 require_relative 'output'
+require_relative 'queue_output'
 require 'command_line_reporter'
 
-class Runner
+class ReporterInterface
 
-  include CommandLineReporter
+  include QueueOutput
   include Output
 
-  attr_reader :reporter, :queue
+  attr_reader :queue
 
   def initialize
     @queue = []
-    self.formatter = 'progress'
+    @format = '%-14s %-11s %-36s %-7s %-18s %5s %-36s %-13s'
   end
 
   def start
@@ -100,7 +101,7 @@ class Runner
     elsif input[1] == "print" && input[2].nil?
       print_queue
     elsif input[1] == "print" && input[2] == "by" && input[3] != nil
-      print_attribute(input[3])
+      sort_by_attribute(input[3])
     elsif input[1] == "save" &&  input[2] == "to" && input[3] != nil
       save(input[3])
     elsif input[1] == "export" && input[2] == "html" && input[3] != nil
@@ -110,17 +111,38 @@ class Runner
     end
   end
 
-  def print_attribute(input)
-
+  def find_executer(input)
+    if input == 3
+      standard_find(input)
+    else
+      extended_find(input)
+    end
   end
 
-  def find_executer(input)
-    all = @reporter.data.find_all do |attendee|
-      attendee.send(input[1].to_sym) == input[2].downcase
+  def find_by_extended_input(input)
+    formatted = input.last(input.count - 2).join(" ")
+    @queue = @reporter.data.find_all do |attendee|
+      attendee.send(input[1].to_sym) == formatted.downcase
     end
+  end
+
+  def extended_find(input)
+    find_by_extended_input(input)
     queue_loaded
-    @queue << all
+    @queue
+  end
+
+  def find_by_standard_input(input)
+  @queue = @reporter.data.find_all do |attendee|
+    attendee.send(input[1].to_sym) == input[2].downcase
+    end
+  end
+
+  def standard_find(input)
+    find_by_standard_input(input)
+    queue_loaded
+    @queue
   end
 end
 
-Runner.new.start
+ReporterInterface.new.start

@@ -28,7 +28,8 @@ class Attendee
   end
 
   def clean_phone_numbers(number)
-    number.gsub(/\D/, "").match(/^1?(\d{3})(\d{3})(\d{4})/)
-  [$1, $2, $3].join("-")
+    clean = number.to_s.gsub(/\D/, "") if number != nil
+    clean.match(/^1?(\d{3})(\d{3})(\d{4})/) if number != nil
+    [$1, $2, $3].join("-")
   end
 end

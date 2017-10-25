@@ -1,6 +1,5 @@
 require "minitest/autorun"
 require "minitest/pride"
-require "pry"
 require "./lib/event_reporter.rb"
 require "./lib/attendee"
 
@@ -48,6 +47,15 @@ class AttendeeTest < Minitest::Test
     assert_equal '234', attendee.clean_capitalization(234)
     assert_equal "molly", attendee.clean_capitalization("MoLLy")
     assert_equal 'salt lake city', attendee.clean_capitalization("Salt Lake City")
+  end
+
+  def test_clean_phone_numbers
+    assert_equal '--', attendee.clean_phone_numbers(nil)
+    assert_equal "615-438-5000", attendee.clean_phone_numbers("6154385000")
+    assert_equal "615-438-5000", attendee.clean_phone_numbers("1-6154385000")
+    assert_equal "615-438-5000", attendee.clean_phone_numbers("(1615)438-5000")
+    assert_equal "--", attendee.clean_phone_numbers('(1615)438-')
+    assert_equal '297-354-7439', attendee.clean_phone_numbers(2973547439)
   end
 
 end

@@ -35,8 +35,11 @@ class AttendeeTest < Minitest::Test
     assert_equal '20010', attendee.zipcode
   end
 
-  def test_case_name
-
+  def test_clean_zipcode
+    assert_equal '02030', attendee.clean_zipcode('2030')
+    assert_equal '00000', attendee.clean_zipcode(nil)
+    assert_equal '00001', attendee.clean_zipcode(1)
+    assert_instance_of String, attendee.clean_zipcode([20003])
   end
 
 end

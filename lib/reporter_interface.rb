@@ -90,8 +90,19 @@ class ReporterInterface
     end
   end
 
-  def export(input)
+  def erb_reader
+    File.read "./data/attendee_queue.erb"
+  end
 
+  def export(input)
+    erb = ERB.new erb_reader
+    table = erb.result(binding)
+    Dir.mkdir("html") unless Dir.exists? "html"
+    file = "html/#{input}"
+    File.open(file,"w") do |file|
+      file.puts table
+    end
+    @queue.clear
   end
 
   def save(input)

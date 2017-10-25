@@ -3,11 +3,14 @@ require "pry"
 require_relative 'output'
 require_relative 'queue_output'
 require_relative 'find_execution'
+require_relative 'variable_formatting'
 
 class ReporterInterface
 
   include QueueOutput
   include Output
+  include FindExecution
+  include VariableFormatting
 
   attr_reader :queue, :print_format
 
@@ -64,22 +67,6 @@ class ReporterInterface
       try_again_next_command
     end
     evaluate_next_command(input_splitter)
-  end
-
-  def check_for_attendee_instance_variable(input)
-    instance_variable_strings.one? {|variable| variable == input[1]}
-  end
-
-  def variable_formatter
-    @reporter.data.map {|attendee| attendee.instance_variables}.flatten.uniq
-  end
-
-  def string_maker
-    variable_formatter.map {|variable| variable.to_s}
-  end
-
-  def instance_variable_strings
-    string_maker.map {|variable| variable.delete('@')}
   end
 
   def queue_executer(input)

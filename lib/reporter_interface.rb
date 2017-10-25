@@ -111,6 +111,14 @@ class ReporterInterface
     end
   end
 
+  def help_executer(input)
+    if input.length == 1
+      help_commands
+    else
+      help_specific(input)
+    end
+  end
+
   def find_executer(input)
     if input.length == 3
       standard_find(input)
@@ -145,4 +153,4 @@ class ReporterInterface
   end
 end
 
-ReporterInterface.start
+ReporterInterface.new.start

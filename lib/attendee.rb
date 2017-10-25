@@ -24,7 +24,7 @@ class Attendee
   end
 
   def clean_capitalization(entry)
-    entry.downcase if entry != nil
+    entry.to_s.downcase if entry != nil
   end
 
   def clean_phone_numbers(number)

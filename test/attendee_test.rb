@@ -42,4 +42,12 @@ class AttendeeTest < Minitest::Test
     assert_instance_of String, attendee.clean_zipcode([20003])
   end
 
+  def test_clean_capitalization
+    assert_nil nil, attendee.clean_capitalization(nil)
+    assert_equal "", attendee.clean_capitalization('')
+    assert_equal '234', attendee.clean_capitalization(234)
+    assert_equal "molly", attendee.clean_capitalization("MoLLy")
+    assert_equal 'salt lake city', attendee.clean_capitalization("Salt Lake City")
+  end
+
 end

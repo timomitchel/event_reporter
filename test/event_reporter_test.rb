@@ -71,11 +71,4 @@ class EventReporterTest < Minitest::Test
     assert_equal 'dc', er.data.first.state
     assert_equal '2008-11-23 20:44:00 -0700', er.data.last.date
   end
-
-  def test_hash_maker
-    er = EventReporter.new
-
-    assert_equal '', er.hash_maker
-  end
-
 end

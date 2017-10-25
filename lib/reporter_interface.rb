@@ -4,6 +4,7 @@ require_relative 'output'
 require_relative 'queue_output'
 require_relative 'find_execution'
 require_relative 'variable_formatting'
+require 'erb'
 
 class ReporterInterface
 
@@ -87,6 +88,10 @@ class ReporterInterface
     else
       try_again_next_command
     end
+  end
+
+  def export(input)
+
   end
 
   def save(input)

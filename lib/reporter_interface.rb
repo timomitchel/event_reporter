@@ -9,11 +9,11 @@ class ReporterInterface
   include QueueOutput
   include Output
 
-  attr_reader :queue
+  attr_reader :queue, :print_format
 
   def initialize
     @queue = []
-    @format = '%-14s %-11s %-36s %-7s %-18s %5s %-36s %-13s'
+    @print_format = '%-14s %-11s %-36s %-7s %-18s %5s %-36s %-13s'
   end
 
   def start
@@ -112,7 +112,7 @@ class ReporterInterface
   end
 
   def find_executer(input)
-    if input == 3
+    if input.length == 3
       standard_find(input)
     else
       extended_find(input)
@@ -145,4 +145,4 @@ class ReporterInterface
   end
 end
 
-ReporterInterface.new.start
+ReporterInterface.start

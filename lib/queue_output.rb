@@ -11,7 +11,7 @@ module QueueOutput
 
   def print_formatted_queue
     @queue.flatten.each_with_index do |attendee, i|
-       puts @format % [attendee.last_name, attendee.first_name,
+       puts @print_format % [attendee.last_name, attendee.first_name,
                        attendee.email, attendee.zipcode, attendee.city,
                        attendee.state, attendee.street, attendee.phone]
      end
@@ -27,14 +27,14 @@ module QueueOutput
   def print_sorted_queue(sorted)
     print_headers
     sorted.each_with_index do |attendee, i|
-      puts @format % [attendee.last_name, attendee.first_name,
+      puts @print_format % [attendee.last_name, attendee.first_name,
                       attendee.email, attendee.zipcode, attendee.city,
                       attendee.state, attendee.street, attendee.phone]
     end
   end
 
   def print_headers
-    puts @format % ['LAST NAME', 'FIRST NAME',
+    puts @print_format % ['LAST NAME', 'FIRST NAME',
                     'EMAIL','ZIPCODE', 'CITY', 'STATE',
                     'ADDRESS', 'PHONE']
   end

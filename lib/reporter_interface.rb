@@ -52,15 +52,6 @@ class ReporterInterface
     evaluate_next_command(input_splitter)
   end
 
-  def try_again_first_command
-    restart_message
-    evaluate_first_command(input_splitter)
-  end
-
-  def try_again_next_command
-    restart_message_with_help
-  end
-
   def evaluate_next_command(input)
     exit if input[0] == 'quit'
     if input[0] == 'queue'

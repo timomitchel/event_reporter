@@ -18,6 +18,15 @@ module Output
           default csv file"
   end
 
+  def try_again_first_command
+    restart_message
+    evaluate_first_command(input_splitter)
+  end
+
+  def try_again_next_command
+    restart_message_with_help
+  end
+
   def help_commands
   puts "\t    ________________________________________________________________
           ================================================================

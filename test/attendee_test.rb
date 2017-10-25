@@ -35,4 +35,8 @@ class AttendeeTest < Minitest::Test
     assert_equal '20010', attendee.zipcode
   end
 
+  def test_case_name
+
+  end
+
 end

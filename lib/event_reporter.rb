@@ -4,27 +4,29 @@ require "pry"
 
 class EventReporter
 
-  attr_reader :filename, :data, :formatted_data
+  attr_reader :filename, :data
 
   def initialize(filename = './data/full_event_attendees.csv')
     @filename = filename
-    @data = csv_load.map {|row| Attendee.new(row, self)}
+    @data = csv_load
   end
 
   def csv_load
+    csv_open.map {|row| Attendee.new(row)}
+  end
+
+  def csv_open
     CSV.open filename, headers: true, header_converters: :symbol
   end
 
-  def format_zip_codes
-    data.map do |attendee|
-      attendee.zipcode.to_s.rjust(5, '0')[0..4]
+  def hash_maker
+      csv_load.reduce(Hash.new(0)) do |hash, attendee|
+        hash[attendee.first_name] = 'first_name'
+        hash
     end
   end
 
-  def format_phone_numbers
-    data.map do |attendee|
-      attendee.phone.gsub(/\D/, "").match(/^1?(\d{3})(\d{3})(\d{4})/)
-    [$1, $2, $3].join("-")
-    end
+  def attendee_hash_scratch
+    data.map { |attendee| [attendee.city, attendee] }.to_h
   end
 end

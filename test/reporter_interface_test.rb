@@ -19,9 +19,4 @@ class ReporterInterfaceTest < Minitest::Test
     assert_equal expected_format, interface.print_format
   end
 
-  def test_variable_formatter
-
-  end
-
-
 end

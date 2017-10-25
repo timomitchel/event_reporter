@@ -18,8 +18,30 @@ module Output
           default csv file"
   end
 
-  def help
-    puts ""
+  def try_again_first_command
+    restart_message
+    evaluate_first_command(input_splitter)
+  end
+
+  def try_again_next_command
+    restart_message_with_help
+  end
+
+  def help_commands
+  puts "\t    ________________________________________________________________
+          ================================================================
+          ||  Available Commands:                                        ||
+          ||    load <filename>,
+                find <attribute> <criteria>,                             ||
+          ||    queue count, queue clear, queue print,                   ||
+          ||    queue print by <attribute>,                              ||
+          ||    queue save to <filename.csv>,                            ||
+          ||    queue export html <filename.html>,
+                help <command>,
+                quit                                                     ||
+          ================================================================
+          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+          "
   end
 
   def print_queue_clear

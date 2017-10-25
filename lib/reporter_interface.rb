@@ -2,12 +2,15 @@ require_relative "event_reporter"
 require "pry"
 require_relative 'output'
 require_relative 'queue_output'
-require 'command_line_reporter'
+require_relative 'find_execution'
+require_relative 'variable_formatting'
 
 class ReporterInterface
 
   include QueueOutput
   include Output
+  include FindExecution
+  include VariableFormatting
 
   attr_reader :queue, :print_format
 
@@ -52,15 +55,6 @@ class ReporterInterface
     evaluate_next_command(input_splitter)
   end
 
-  def try_again_first_command
-    restart_message
-    evaluate_first_command(input_splitter)
-  end
-
-  def try_again_next_command
-    restart_message_with_help
-  end
-
   def evaluate_next_command(input)
     exit if input[0] == 'quit'
     if input[0] == 'queue'
@@ -73,22 +67,6 @@ class ReporterInterface
       try_again_next_command
     end
     evaluate_next_command(input_splitter)
-  end
-
-  def check_for_attendee_instance_variable(input)
-    instance_variable_strings.one? {|variable| variable == input[1]}
-  end
-
-  def variable_formatter
-    @reporter.data.map {|attendee| attendee.instance_variables}.flatten.uniq
-  end
-
-  def string_maker
-    variable_formatter.map {|variable| variable.to_s}
-  end
-
-  def instance_variable_strings
-    string_maker.map {|variable| variable.delete('@')}
   end
 
   def queue_executer(input)
@@ -111,38 +89,13 @@ class ReporterInterface
     end
   end
 
-  def find_executer(input)
-    if input.length == 3
-      standard_find(input)
+  def help_executer(input)
+    if input.length == 1
+      help_commands
     else
-      extended_find(input)
+      help_specific(input)
     end
-  end
-
-  def find_by_extended_input(input)
-    formatted = input.last(input.count - 2).join(" ")
-    @queue = @reporter.data.find_all do |attendee|
-      attendee.send(input[1].to_sym) == formatted.downcase
-    end
-  end
-
-  def extended_find(input)
-    find_by_extended_input(input)
-    queue_loaded
-    @queue
-  end
-
-  def find_by_standard_input(input)
-  @queue = @reporter.data.find_all do |attendee|
-    attendee.send(input[1].to_sym) == input[2].downcase
-    end
-  end
-
-  def standard_find(input)
-    find_by_standard_input(input)
-    queue_loaded
-    @queue
   end
 end
 
-ReporterInterface.start
+ReporterInterface.new.start

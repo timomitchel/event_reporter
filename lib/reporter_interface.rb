@@ -89,6 +89,24 @@ class ReporterInterface
     end
   end
 
+  def save(input)
+    CSV.open("./data/#{input}", 'wb') do |csv|
+      csv << ['LAST NAME', 'FIRST NAME',
+              'EMAIL','ZIPCODE', 'CITY', 'STATE',
+              'ADDRESS', 'PHONE']
+      csv << grab_attributes
+    end
+    @queue.clear
+  end
+
+  def grab_attributes
+    @queue.map do |attendee|
+        [attendee.last_name, attendee.first_name,
+        attendee.email, attendee.zipcode, attendee.city,
+        attendee.state, attendee.street, attendee.phone]
+      end.flatten
+  end
+
   def help_executer(input)
     if input.length == 1
       help_commands

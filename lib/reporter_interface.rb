@@ -102,12 +102,14 @@ class ReporterInterface
     ERB.new file_reader
   end
 
+  def table_result
+    erb_reader.result(binding)
+  end
+
   def export(input)
-    table = erb_reader.result(binding)
     Dir.mkdir("html") unless Dir.exists? "html"
-    file = "html/#{input}"
-    File.open(file,"w") do |file|
-      file.puts table
+    File.open("html/#{input}","w") do |file|
+      file.puts table_result
     end
     @queue.clear
   end

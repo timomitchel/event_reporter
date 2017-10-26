@@ -1,5 +1,4 @@
 require_relative "event_reporter"
-require "pry"
 require_relative 'text_output'
 require_relative 'queue_output'
 require_relative 'find_execution'

@@ -1,6 +1,5 @@
 require "minitest/autorun"
 require "minitest/pride"
-require "pry"
 require "./lib/event_reporter"
 require_relative "test_helper"
 

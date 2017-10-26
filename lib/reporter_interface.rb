@@ -106,7 +106,7 @@ class ReporterInterface
   end
 
   def export(input)
-    Dir.mkdir("html") unless Dir.exists? "html"
+    Dir.mkdir("html") unless Dir.exist? "html"
     File.open("html/#{input}","w") do |file|
       file.puts table_result
     end
@@ -126,3 +126,4 @@ class ReporterInterface
     @queue.clear
   end
 end
+ReporterInterface.new.start

@@ -2,6 +2,7 @@ require "minitest/autorun"
 require "minitest/pride"
 require "./lib/event_reporter.rb"
 require "./lib/attendee"
+require_relative "test_helper"
 
 class AttendeeTest < Minitest::Test
 

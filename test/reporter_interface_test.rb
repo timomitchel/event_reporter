@@ -3,6 +3,7 @@ require "minitest/pride"
 require "pry"
 require "./lib/reporter_interface"
 require "./lib/event_reporter"
+require_relative "test_helper"
 
 class ReporterInterfaceTest < Minitest::Test
 

@@ -127,5 +127,3 @@ class ReporterInterface
     @queue.clear
   end
 end
-
-ReporterInterface.new.start

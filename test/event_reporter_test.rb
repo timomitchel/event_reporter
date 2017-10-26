@@ -1,7 +1,8 @@
 require "minitest/autorun"
 require "minitest/pride"
 require "pry"
-require "./lib/event_reporter.rb"
+require "./lib/event_reporter"
+require_relative "test_helper"
 
 class EventReporterTest < Minitest::Test
 

@@ -1,6 +1,5 @@
 require "minitest/autorun"
 require "minitest/pride"
-require "pry"
 require "./lib/reporter_interface"
 require "./lib/event_reporter"
 require_relative "test_helper"
@@ -20,4 +19,19 @@ class ReporterInterfaceTest < Minitest::Test
     assert_equal expected_format, interface.print_format
   end
 
+  def test_file_reader
+    assert_instance_of String, interface.file_reader
+  end
+
+  def test_erb_reader
+    assert_instance_of ERB, interface.erb_reader
+  end
+
+  def test_table_result
+    assert_instance_of String, interface.table_result
+  end
+
+  def test_export_input
+    assert_instance_of Array, interface.export('test.html')
+  end
 end

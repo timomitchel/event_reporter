@@ -1,4 +1,4 @@
-module Output
+module TextOutput
 
   def restart_message
     puts "That is not an executable command.

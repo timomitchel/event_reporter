@@ -1,6 +1,6 @@
 require_relative "event_reporter"
 require "pry"
-require_relative 'output'
+require_relative 'text_output'
 require_relative 'queue_output'
 require_relative 'find_execution'
 require_relative 'variable_formatting'
@@ -11,7 +11,7 @@ class ReporterInterface
 
   include HelpExecuter
   include QueueOutput
-  include Output
+  include TextOutput
   include FindExecution
   include VariableFormatting
 

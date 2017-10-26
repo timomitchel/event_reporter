@@ -73,4 +73,14 @@ module Output
     puts "Exports all elements of queue to html file you name. ex:
     'queue export html <filename>.html'"
   end
+
+  def find_help
+    puts "Finds attendees by element that matches your input.
+    ex: 'find state co' populates queue with attendees from Colorado"
+  end
+
+  def load_help
+    puts "Loads a csv file to navigate. ex: load <filename>.csv
+    If no filename is entered a default file is loaded to the program."
+  end
 end

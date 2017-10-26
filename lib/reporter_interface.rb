@@ -4,6 +4,7 @@ require_relative 'output'
 require_relative 'queue_output'
 require_relative 'find_execution'
 require_relative 'variable_formatting'
+require 'erb'
 
 class ReporterInterface
 
@@ -87,6 +88,34 @@ class ReporterInterface
     else
       try_again_next_command
     end
+  end
+
+  def erb_reader
+    File.read "./data/attendee_queue.erb"
+  end
+
+  def export(input)
+    erb = ERB.new erb_reader
+    table = erb.result(binding)
+    Dir.mkdir("html") unless Dir.exists? "html"
+    file = "html/#{input}"
+    File.open(file,"w") do |file|
+      file.puts table
+    end
+    @queue.clear
+  end
+
+  def save(input)
+    CSV.open("./data/#{input}", 'wb', headers: true) do |csv|
+      csv << ['LAST NAME', 'FIRST NAME','EMAIL','ZIPCODE', 'CITY', 'STATE',
+              'ADDRESS', 'PHONE']
+          @queue.map do |attendee|
+      csv << [attendee.last_name, attendee.first_name, attendee.email,
+        attendee.zipcode, attendee.city,attendee.state, attendee.street,
+        attendee.phone]
+                end
+    end
+    @queue.clear
   end
 
   def help_executer(input)

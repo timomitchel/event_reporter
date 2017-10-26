@@ -41,6 +41,8 @@ class ReporterInterface
       load_file_input(input)
     elsif input[0] == 'load' && input[1].nil?
       load_default_file
+    elsif input[0] == 'find'
+      evaluate_next_command(input_splitter)
     else
       try_again_first_command
     end
@@ -92,13 +94,16 @@ class ReporterInterface
     end
   end
 
-  def erb_reader
+  def file_reader
     File.read "./data/attendee_queue.erb"
   end
 
+  def erb_reader
+    ERB.new file_reader
+  end
+
   def export(input)
-    erb = ERB.new erb_reader
-    table = erb.result(binding)
+    table = erb_reader.result(binding)
     Dir.mkdir("html") unless Dir.exists? "html"
     file = "html/#{input}"
     File.open(file,"w") do |file|

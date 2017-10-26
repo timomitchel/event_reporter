@@ -1,15 +1,16 @@
 require_relative "event_reporter"
-require "pry"
-require_relative 'output'
+require_relative 'text_output'
 require_relative 'queue_output'
 require_relative 'find_execution'
 require_relative 'variable_formatting'
 require 'erb'
+require_relative 'help_executer'
 
 class ReporterInterface
 
+  include HelpExecuter
   include QueueOutput
-  include Output
+  include TextOutput
   include FindExecution
   include VariableFormatting
 
@@ -39,6 +40,8 @@ class ReporterInterface
       load_file_input(input)
     elsif input[0] == 'load' && input[1].nil?
       load_default_file
+    elsif input[0] == 'find'
+      evaluate_next_command(input_splitter)
     else
       try_again_first_command
     end
@@ -90,17 +93,22 @@ class ReporterInterface
     end
   end
 
-  def erb_reader
+  def file_reader
     File.read "./data/attendee_queue.erb"
   end
 
+  def erb_reader
+    ERB.new file_reader
+  end
+
+  def table_result
+    erb_reader.result(binding)
+  end
+
   def export(input)
-    erb = ERB.new erb_reader
-    table = erb.result(binding)
-    Dir.mkdir("html") unless Dir.exists? "html"
-    file = "html/#{input}"
-    File.open(file,"w") do |file|
-      file.puts table
+    Dir.mkdir("html") unless Dir.exist? "html"
+    File.open("html/#{input}","w") do |file|
+      file.puts table_result
     end
     @queue.clear
   end
@@ -117,14 +125,5 @@ class ReporterInterface
     end
     @queue.clear
   end
-
-  def help_executer(input)
-    if input.length == 1
-      help_commands
-    else
-      help_specific(input)
-    end
-  end
 end
-
 ReporterInterface.new.start

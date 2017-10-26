@@ -1,4 +1,4 @@
-module Output
+module TextOutput
 
   def restart_message
     puts "That is not an executable command.
@@ -50,5 +50,37 @@ module Output
 
   def file_loaded
     puts "Event Reporter file: --#{@reporter.filename}-- loaded and ready!"
+  end
+
+  def help_queue_count
+    puts 'Prints out the count of attendees in the queue'
+  end
+
+  def help_queue_clear
+    puts 'Clears all attendees from the queue. Queue is ready to be reloaded'
+  end
+
+  def help_queue_print
+    puts "Prints out all elements currently in the queue. Use print by to sort
+    by a specific attribute. ex: 'print by zipcode'"
+  end
+
+  def help_queue_save
+    puts "Saves all elements of the queue as a csv in the data directory."
+  end
+
+  def help_queue_export
+    puts "Exports all elements of queue to html file you name. ex:
+    'queue export html <filename>.html'"
+  end
+
+  def find_help
+    puts "Finds attendees by element that matches your input.
+    ex: 'find state co' populates queue with attendees from Colorado"
+  end
+
+  def load_help
+    puts "Loads a csv file to navigate. ex: load <filename>.csv
+    If no filename is entered a default file is loaded to the program."
   end
 end

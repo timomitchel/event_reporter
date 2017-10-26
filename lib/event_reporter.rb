@@ -1,6 +1,5 @@
 require "csv"
 require_relative "attendee"
-require "pry"
 
 class EventReporter
 

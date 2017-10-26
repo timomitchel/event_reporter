@@ -125,6 +125,34 @@ class ReporterInterface
       help_specific(input)
     end
   end
+
+  def find_help
+    puts "Finds attendees by element that matches your input.
+    ex: 'find state co' populates queue with attendees from Colorado"
+  end
+
+  def load_help
+    puts "Loads a csv file to navigate. ex: load <filename>.csv
+    If no filename is entered a default file is loaded to the program."
+  end
+
+  def queue_helps(input)
+    case input
+    when input[2] == 'count' then help_queue_count
+    when input[2] == 'clear' then help_queue_clear
+    when input[2] == 'print' then help_queue_print
+    when input[2] == 'save' then help_queue_save
+    when input[2] == 'export' then help_queue_export
+    end
+  end
+
+  def help_specific(input)
+    case input
+      when input[1] == 'queue' then queue_helps(input)
+      when input[1] == 'find' then find_help
+      when input[1] == 'load' then load_help
+    end
+  end
 end
 
 ReporterInterface.new.start
